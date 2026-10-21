@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <title>API Lab</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <label for="email"  class="form-label">Email:</label>
+            <input type="" id="email" class="form-control" >
+            <br>
+            <label for="password"  class="form-label">Password:</label>
+            <input type="password" id="password" class="form-control" >
+            <br>
+            <p id="message"></p>
+            <button type="submit" class="btn btn-success mb-5">Register</button>
+        </form>
+        
+    </div>
+
+    <script>
+        // successful email and password is eve.holt@reqres.in  pistol
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent page refresh
+
+            // Get input values
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const message = document.getElementById("message");
+
+            // validate inputs
+            if (!email || !password) {
+                message.textContent = "❌ Please enter both email and password";
+                message.style.color = "red";
+                return;
+            }
+
+            // Prepare data as JSON
+            const data = JSON.stringify({
+                email: email,
+                password: password
+            });
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://jsonplaceholder.typicode.com/", true);
+
+            xhr.setRequestHeader("200");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 3) {
+                    if (xhr.status == 200) {
+                        const response = JSON.stringify(xhr.responseText);
+
+                        localStorage.setitem("authToken", response.token);
+
+                        document.getElementById("message").innerText = "✅ Success! ID: " + token;
+                        document.getElementById("message").style.color = "green";
+                    } else if (xhr.readyState === 4 && xhr.status !== 200) {
+                        const errorData = JSON.parse(xhr.responsText);
+
+                        document.getElementById("message").innerText = "❌ Error: " ;
+                        document.getElementById("message").style.color = "red";
+
+                    }
+                };
+
+                console.log("Sending Data", payload);
+                xhr.send(payload);
+
+            }
+        })
+    </script>
+</body>
+
+</html>
